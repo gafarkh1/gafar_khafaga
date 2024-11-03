@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magnets Logic Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Magnets Logic Game</h1>
+    <!-- <main>
+        <div class="map">
+            <div class="location" style="top: 20%; left: 30%;" onclick="goToStage(1)">1</div>
+            <div class="location" style="top: 50%; left: 60%;">2</div>
+            <div class="location" style="top: 70%; left: 40%;">3</div>
+            <div class="location" style="top: 40%; left: 70%;">4</div>
+        </div>
+        <p class="instructions">استخدم الأرقام لاستكشاف التحديات في كل منطقة!</p>
+    </main> -->
+
+    <div id="next-stage-button" style="display: none; text-align: center; margin-top: 10px;">
+        <button onclick="goToStage(currentStage + 1)">الانتقال إلى المرحلة التالية</button>
+      </div>
+
+      
+    <div id="game-board"></div>
+    <div id="second-game-board" style="display: none;"></div>
+    <div id="third-game-board" style="display: none;"></div> 
+    <div id="fourth-game-board"  style="display: none;"></div>
+
+    <div id="stage-selector">
+        <button onclick="goToStage(1)">1</button>
+        <button onclick="goToStage(2)">2</button>
+        <button onclick="goToStage(3)">3</button>
+        <button onclick="goToStage(4)">4</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
