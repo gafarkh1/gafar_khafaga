@@ -11,6 +11,82 @@ const winningZones = [
   { row: 1, col: 1 }, { row: 1, col: 3 }
 ];
 
+function ucs(startRow, startCol) {
+  const priorityQueue = [];
+  const visited = Array.from({ length: boardSize.rows }, () => Array(boardSize.cols).fill(false));
+
+  
+  priorityQueue.push({ row: startRow, col: startCol, cost: 0 });
+
+  while (priorityQueue.length > 0) {
+   
+    priorityQueue.sort((a, b) => a.cost - b.cost);
+
+   
+    const { row, col, cost } = priorityQueue.shift();
+    console.log(`UCS visited (${row}, ${col}) بتكلفة: ${cost}`);
+
+    
+    if (isWinningCell(row, col)) {
+      console.log(`UCS - تم الوصول إلى خلية الفوز: (${row}, ${col}) بتكلفة إجمالية: ${cost}`);
+      return cost;
+    }
+
+  
+    if (visited[row][col]) continue;
+    visited[row][col] = true;
+
+    
+    const neighbors = [
+     
+      { row:row- 1, col:col+ 3 },
+      { row: row + 1, col }, 
+      { row: row - 1, col }, 
+      { row, col: col + 1 }, 
+      { row, col: col - 1 } ,
+      
+    ];
+
+    for (const neighbor of neighbors) {
+      const { row: nRow, col: nCol } = neighbor;
+
+      if (
+        nRow >= 0 && nRow < boardSize.rows &&
+        nCol >= 0 && nCol < boardSize.cols &&
+        board[nRow][nCol] !== 'black' && 
+        !visited[nRow][nCol]
+      ) {
+        
+
+        const moveCost = calculateCost(row, col, nRow, nCol);
+
+       
+        priorityQueue.push({ row: nRow, col: nCol, cost: cost + moveCost });
+      }
+    }
+  }
+
+  console.log("UCS - لا يوجد طريق إلى خلية الفوز.");
+  return -1; 
+}
+
+function calculateCost(currentRow, currentCol, nextRow, nextCol) {
+  
+  let cost = 1;
+
+ 
+  const cellType = board[nextRow][nextCol];
+
+  if (cellType === 'black') {
+    cost = 0; 
+  } else if (cellType === 'gray') {
+    cost += 1; 
+  } else if (cellType === 'purple') {
+    cost += 1; 
+  }
+
+  return cost;
+}
 
 
 function initializeBoard(rows, cols) {
@@ -26,9 +102,20 @@ function initializeBoard(rows, cols) {
   
   const start = { row: 2, col: 0 };  
 
+  
   const visited = Array.from({ length: boardSize.rows }, () => Array(boardSize.cols).fill(false));
+
+
   dfs(start.row, start.col, visited); 
   bfs(start.row, start.col, visited); 
+
+
+  const cost = ucs(start.row, start.col);
+if (cost >= 0) {
+  console.log(`تم العثور على طريق إلى خلية الفوز بتكلفة إجمالية: ${cost}`);
+} else {
+  console.log("لا يوجد طريق إلى أي خلية فوز.");
+}
 }
 
 
